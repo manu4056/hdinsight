@@ -1,0 +1,35 @@
+Map reduce : MapReduce is a processing technique and a program model for distributed computing based on java. The MapReduce algorithm contains two important tasks, namely Map and Reduce.
+
+Map: Map takes a set of data and converts it into another set of data, where individual elements are broken down into tuples (key/value pairs).
+
+reduce : takes the output from a map as an input and combines those data tuples into a smaller set of tuples. As the sequence of the name MapReduce implies, the reduce task is always performed after the map job.
+
+PayLoad - Applications implement the Map and the Reduce functions, and form the core of the job.
+
+Mapper - Mapper maps the input key/value pairs to a set of intermediate key/value pair.
+
+NamedNode - Node that manages the Hadoop Distributed File System (HDFS).
+
+DataNode - Node where data is presented in advance before any processing takes place.
+
+MasterNode - Node where JobTracker runs and which accepts job requests from clients.
+
+SlaveNode - Node where Map and Reduce program runs.
+
+JobTracker - Schedules jobs and tracks the assign jobs to Task tracker.
+
+Task Tracker - Tracks the task and reports status to JobTracker.
+
+Job - A program is an execution of a Mapper and Reducer across a dataset.
+
+Task - An execution of a Mapper or a Reducer on a slice of data.
+
+Task Attempt - A particular instance of an attempt to execute a task on a SlaveNode.
+
+
+Mapper: maps input key value pair to the intermediate key/value pair.
+
+Reducer: Reducer reduces a set of intermediate values which share a key to  a smaller set of values.
+
+
+
