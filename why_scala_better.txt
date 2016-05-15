@@ -1,0 +1,5 @@
+1. Python is in general slower than Scala. If you have significent processing logic written in your own codes, Scala definitely will offer better performance. 
+2. Scala is static typed. It looks like dynamic-typed language because it uses a sophisticated type inference mechanism. It means that I still have the compiler to catch the compile-time errors for me. Call me old school. 
+3. Apache Spark is built on Scala, thus being proficient in Scala helps you digging into the source code when something does not work as you expect. It is especially true for a young fast-moving open source project like Spark. 
+4. When Python wrapper calls the underlying Spark codes written in Scala running on a JVM, translation between two different environments and languages might be the source of more bugs and issues. 
+5. Last but not least, because Spark is implemented in Scala, using Scala allows you to access the latest greatest features. Most features are first availabe on Scala and then port to Python. 
