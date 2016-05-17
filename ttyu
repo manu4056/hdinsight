@@ -1,0 +1,40 @@
+to create RDD : 
+from pyspark.sql.types import *
+htext=sc.textFile("wasb://manu@onetaxenggrawdatastore.blob.core.windows.net/files/")
+hschema=StructType([StructField("id1",IntegerType()),StructField("id2",IntegerType()),StructField("id3",IntegerType()),StructField("name1",StringType()),StructField("name2",StringType()),StructField("name3",StringType())])
+hvac=htext.map(lambda s:s.split(';')).filter(lambda s:s[0]!="id1").map(lambda s: (int(s[0]),int(s[1]),int(s[2]),str(s[3]),str(s[4]),str(s[5])))
+mdf=sqlContext.createDataFrame(hvac,hschema)
+mdf.count()
+
+sqlContext.registerDataFrameAsTable(mdf,"first")
+
+df=sqlContext.sql("select *from first where name3='PROJECT BLACK V1' " )
+df.collect()
+
+
+df=mdf.filter("name3='PROJECT BLACK V1' and id1=300").select('id1','name1')
+print df.collect()
+mdf.write.parquet("wasb://manu@onetaxenggrawdatastore.blob.core.windows.net/files/first3.parquet")
+
+
+a=time()
+mdf.write.parquet("wasb://manu@onetaxenggrawdatastore.blob.core.windows.net/files/first3.parquet")
+b=time()
+print b-a
+
+
+from time import time
+a=time()
+mdf.write.orc("wasb://manu@onetaxenggrawdatastore.blob.core.windows.net/files/firstORC.orc")
+b=time()
+print b-a
+
+
+from time import time
+a=time()
+mdf.write.json("wasb://manu@onetaxenggrawdatastore.blob.core.windows.net/files/firstJSON.json")
+b=time()
+print b-a
+
+
+mdf.select(mdf.id1,(mdf.id1+10).alias("manu")).collect()
