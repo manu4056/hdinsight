@@ -1,0 +1,36 @@
+val text11=sc.textFile("wasb://manu@onetaxenggrawdatastore.blob.core.windows.net/sample2/")
+import org.apache.spark.sql._
+import org.apache.spark.sql.types.{StructType, StructField, StringType};
+import org.apache.spark.sql.types._
+
+import  org.apache.spark.sql.types._
+val schema11 = StructType(Array(
+StructField("OrderId",StringType,true),
+StructField("OrderLineItemId",DoubleType,true),
+StructField("AccountingDateKey",IntegerType,true)
+  
+      
+    
+    ))
+    
+    
+import org.apache.spark.sql.Row;
+
+val rowRDD1 =rowRDD11.map(_.split(",")).map(p => Row( p(0) ,if (p(1)==null || p(1).isEmpty) 0.0 else p(1).trim.toDouble,if (p(2)==null || p(2).isEmpty) 0.0 else p(2).toInt))
+
+val df11 = sqlContext.createDataFrame(rowRDD1, schema11)
+
+
+
+import org.apache.spark.sql.functions.{lit, udf}
+
+
+import org.apache.spark.sql.functions.row_number
+
+import org.apache.spark.sql.expressions.Window
+
+
+val aa=sqlContext.range(1,df11.count()).alias("id")
+
+
+
