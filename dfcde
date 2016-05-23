@@ -128,4 +128,11 @@ println((b-a)/1000000000)
 
 import org.apache.spark.sql.functions.{lit, udf}
 
+
+
+
+val dff=sqlContext.read.table("prt22")    // to read the table and return as dataframe
+
+val dff=sqlContext.read.parquet(path)   // to load the file as data frame
+
 val dd=df11.withColumn("period",lit(201605))
