@@ -33,4 +33,4 @@ import org.apache.spark.sql.expressions.Window
 val aa=sqlContext.range(1,df11.count()).alias("id")
 
 
-
+val df = sqlContext.emptyDataFrame
