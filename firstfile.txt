@@ -1,0 +1,128 @@
+val text2=sc.textFile("wasb://manu@onetaxenggrawdatastore.blob.core.windows.net/sample/")
+import org.apache.spark.sql._
+import org.apache.spark.sql.types.{StructType, StructField, StringType};
+import org.apache.spark.sql.types._
+
+
+import  org.apache.spark.sql.types._
+val schema2 = StructType(Array(
+StructField("OrderId",StringType),
+StructField("OrderLineItemId",StringType),
+StructField("AccountingDateKey",LongType),
+StructField("BalanceCurrencyCode",StringType),
+StructField("BillingTaxAmount",DoubleType),
+StructField("BillingTaxAmountUSD",DoubleType),
+StructField("EffectiveTaxRate",StringType),
+StructField("EventActionClass",StringType),
+StructField("EventActionName",StringType),
+StructField("ExchangeRateAmt",DoubleType),
+StructField("IPAddress",StringType),
+StructField("JurisdictionType",StringType),
+StructField("LineItemEventTax",DoubleType),
+StructField("LineItemEventPrice",DoubleType),
+StructField("LineItemRevenueSKU",StringType),
+StructField("LineItemText",StringType),
+StructField("LineItemTotalPrice",DoubleType),
+StructField("LineItemTotalTax",DoubleType),
+StructField("LineItemUnitPrice",DoubleType),
+StructField("LineItemUnitTax",DoubleType),
+StructField("NumberOfUnits",IntegerType),
+StructField("OrderCreationDate",StringType),
+StructField("OriginalOrderId",StringType),
+StructField("PaymentInstrumentAccountHolderName",StringType),
+StructField("PaymentInstrumentAdressCity",StringType),
+StructField("PaymentInstrumentAdressCountryCode",StringType),
+StructField("PaymentInstrumentAdressPostalCode",StringType),
+StructField("PaymentInstrumentAdressState",StringType),
+StructField("PaymentMethodType",StringType),
+StructField("ProductCode",StringType),
+StructField("ProductCodeDescription",StringType),
+StructField("RemitBy",StringType),
+StructField("SalesModel",StringType),
+StructField("SapCompanyCode",StringType),
+StructField("ShipFromCountry",StringType),
+StructField("ShipFromState",StringType),
+StructField("ShipToCity",StringType),
+StructField("ShipToCountryCode",StringType),
+StructField("ShipToCustomerId",StringType),
+StructField("ShipToCustomerName",StringType),
+StructField("ShipToPostalCode",StringType),
+StructField("ShipToState",StringType),
+StructField("SoldFromCountry",StringType),
+StructField("SoldFromState",StringType),
+StructField("SoldFromVatId",StringType),
+StructField("SoldToCity",StringType),
+StructField("SoldToCountryCode",StringType),
+StructField("SoldToCountryId",StringType),
+StructField("SoldToCustomerName",StringType),
+StructField("SoldToCustomerType",StringType),
+StructField("SoldToPostalCode",StringType),
+StructField("SoldToState",StringType),
+StructField("SoldToTaxId",StringType),
+StructField("StatutoryTaxRate",StringType),
+StructField("TaxAuthorityId",StringType),
+StructField("JurisdictionName",StringType),
+StructField("TaxCalculationDate",StringType),
+StructField("TaxExemptCode",StringType),
+StructField("TaxIncluded",BooleanType),
+StructField("TaxType",StringType),
+StructField("TenantName",StringType),
+StructField("UniqueId",StringType),
+StructField("OriginalOrderCreationDate",StringType),
+StructField("ReceiptId",StringType),
+StructField("ImpositionType",StringType),
+StructField("ImpositionName",StringType)))
+
+
+
+
+import org.apache.spark.sql.Row;
+val rowRDD2 = text2.map(_.split("~")).map(p => Row(p(0),p(1),p(2).trim.toLong,p(3),p(4).trim.toDouble,p(5).trim.toDouble,p(6),p(7),p(8),p(9).trim.toDouble,p(10),p(11),p(12).trim.toDouble,p(13).trim.toDouble,p(14),p(15),p(16).trim.toDouble,p(17).trim.toDouble,p(18).trim.toDouble,p(19).trim.toDouble,p(20).trim.toInt,p(21),p(22),p(23),p(24),p(25),p(26),p(27),p(28),p(29),p(30),p(31),p(32),p(33),p(34),p(35),p(36),p(37),p(38),p(39),p(40),p(41),p(42),p(43),p(44),p(45),p(46),p(47),p(48),p(49),p(50),p(51),p(52),p(53),p(54),p(55),p(56),p(57),p(58).trim.toBoolean,p(59),p(60),p(61),p(62),p(63),p(64),p(65)))
+
+
+val df2 = sqlContext.createDataFrame(rowRDD2, schema2)
+
+df.write.partitionBy("PaymentMethodType").format("parquet").saveAsTable("prt")
+
+
+var a=System.nanoTime
+df2.write.partitionBy("PaymentMethodType").format("parquet").saveAsTable("prt2")
+var b=System.nanoTime
+println((b-a)/1000000000)
+
+
+var a=System.nanoTime
+df2.write.parquet("wasb://manu@onetaxenggrawdatastore.blob.core.windows.net/files/par.parquet")
+var b=System.nanoTime
+println((b-a)/1000000000)
+
+
+var a=System.nanoTime
+df2.write.partitionBy("PaymentMethodType").format("orc").saveAsTable("orc1")
+var b=System.nanoTime
+println((b-a)/1000000000)
+
+
+var a=System.nanoTime
+df2.write.orc("wasb://manu@onetaxenggrawdatastore.blob.core.windows.net/files/oor1.orc")
+var b=System.nanoTime
+println((b-a)/1000000000)
+
+
+var a=System.nanoTime
+df2.write.format("orc").saveAsTable("orc11")
+var b=System.nanoTime
+println((b-a)/1000000000)
+
+
+var a=System.nanoTime
+df2.write.format("parquet").saveAsTable("prt22")
+var b=System.nanoTime
+println((b-a)/1000000000)
+
+var a=System.nanoTime
+val d=sqlContext.sql("select count(*) from prt22").collect()
+var b=System.nanoTime
+println((b-a)/1000000000)
+
+
