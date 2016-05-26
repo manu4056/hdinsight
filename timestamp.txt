@@ -1,0 +1,19 @@
+import java.sql.Timestamp
+java.sql.Date
+import java.text.SimpleDateFormat
+import java.util.Date
+def getTimestamp(x:Any) :java.sql.Timestamp = {
+    val format = new SimpleDateFormat("MM/dd/yyyy' 'HH:mm:ss")
+    if (x.toString() == "") 
+    return null
+    else {
+        val d = format.parse(x.toString());
+        val t = new Timestamp(d.getTime());
+        return t
+    }
+}
+def convert(row :org.apache.spark.sql.Row) :org.apache.spark.sql.Row = {
+    import org.apache.spark.sql.Row
+    val d1 = getTimestamp(row(3))
+    return Row(row(0),row(1),row(2),d1)
+}
