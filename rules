@@ -1,0 +1,39 @@
+import org.apache.spark.sql.types._
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.functions.{lit, udf,concat,when,monotonically_increasing_id}
+val text=sc.textFile("wasb://manu@onetaxenggrawdatastore.blob.core.windows.net/rules/")
+
+def parseDecimal(input : String) : BigDecimal = 
+{ 
+    if( input.trim==null|| input.trim.isEmpty )
+    {
+        return BigDecimal(0)
+    }else
+    {
+        return (BigDecimal(input.trim))
+    }
+     
+}
+
+import scala.util.Try
+def parseInt(s: String): Option[Double] = Try(s.toDouble).toOption
+
+
+
+import java.sql.Date
+import java.text.SimpleDateFormat
+import java.util.Date
+def getTimestamp(x:Any) :java.sql.Date = {
+    val format = new SimpleDateFormat("dd/MM/yyyy")
+    if (x.toString() == "") 
+    return null
+    else {
+        val d = format.parse(x.toString());
+        val t = new java.sql.Date(d.getTime());
+        return t
+    }
+}
+
+
+
+
