@@ -1,0 +1,20 @@
+YARN stands for “Yet-Another-Resource-Negotiator”. It is a new framework that facilitates writing arbitrary distributed processing frameworks and applications.
+
+YARN provides the daemons and APIs necessary to develop generic distributed applications of any kind, handles and schedules resource requests (such as memory and CPU) from such applications, and supervises their execution.
+
+YARN’s execution model is more generic than the earlier MapReduce implementation. YARN can run applications that do not follow the MapReduce model, unlike the original Apache Hadoop MapReduce (also called MR1).
+
+there is no job tracker and task tracker in yarn means in hadoop 2.0
+
+
+Resource manager: 
+Resource manager looks at overall cluster resource,responsible for tracking the resources in a cluster and scheduling applications (for example, MapReduce jobs).
+the Resource Manager (one per cluster) is the master. It knows where the slaves are located (Rack Awareness) and how many resources they have. It runs several services, the most important is the Resource Scheduler which decides how to assign the resources.
+
+Node Manager:
+All resource utilization on a particular node is taken care by Node Manager.
+the Node Manager (many per cluster) is the slave of the infrastructure. When it starts, it announces himself to the Resource Manager. Periodically, it sends an heartbeat to the Resource Manager.
+
+Applicaion manager or master: 
+application manager manages progress of application.
+
